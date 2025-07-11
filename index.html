@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Recycle - Join the Green Revolution</title>
+    <link rel="stylesheet" href="styles/login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Background Animation -->
+        <div class="background-animation">
+            <div class="circle circle1"></div>
+            <div class="circle circle2"></div>
+            <div class="circle circle3"></div>
+            <div class="circle circle4"></div>
+            <div class="circle circle5"></div>
+        </div>
+
+        <!-- Main Card -->
+        <div class="main-card">
+            <!-- Header -->
+            <div class="card-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-recycle"></i>
+                    </div>
+                </div>
+                <h1>Smart Recycle</h1>
+                <p class="subtitle">Circular Economy Waste Management Platform</p>
+                <div class="features">
+                    <span class="feature-tag"><i class="fas fa-leaf"></i> Eco-Friendly</span>
+                    <span class="feature-tag"><i class="fas fa-globe"></i> Global Impact</span>
+                    <span class="feature-tag"><i class="fas fa-shield-alt"></i> Secure</span>
+                </div>
+            </div>
+
+            <!-- Login Section -->
+            <div class="login-section">
+                <h2>Join the Green Revolution</h2>
+                <p class="login-subtitle">Sign in to your account or create a new one to start making a difference.</p>
+
+                <!-- Tab Navigation -->
+                <div class="tab-navigation">
+                    <button class="tab-btn active" data-tab="login">
+                        <i class="fas fa-sign-in-alt"></i>
+                        User Login
+                    </button>
+                    <button class="tab-btn" data-tab="register">
+                        <i class="fas fa-user-plus"></i>
+                        Register
+                    </button>
+                </div>
+
+                <!-- Login Form -->
+                <div id="login" class="tab-content active">
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="loginEmail">Email Address</label>
+                            <input type="email" id="loginEmail" placeholder="Enter your email address" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">Password</label>
+                            <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                        </div>
+                        <button type="submit" class="primary-btn">Sign In</button>
+                    </form>
+                </div>
+
+                <!-- Register Form -->
+                <div id="register" class="tab-content">
+                    <form id="registerForm">
+                        <div class="form-group">
+                            <label for="regName">Full Name</label>
+                            <input type="text" id="regName" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="regEmail">Email Address</label>
+                            <input type="email" id="regEmail" placeholder="Enter your email address" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="regPhone">Phone Number</label>
+                            <input type="tel" id="regPhone" placeholder="Enter your phone number" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="regAddress">Address</label>
+                            <textarea id="regAddress" placeholder="Enter your full address" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="regPassword">Password</label>
+                            <input type="password" id="regPassword" placeholder="Create a strong password" required>
+                        </div>
+                        <button type="submit" class="primary-btn">Create Account</button>
+                    </form>
+                </div>
+
+                <!-- Admin Access -->
+                <div class="admin-access">
+                    <div class="admin-toggle" onclick="toggleAdminModal()">
+                        <i class="fas fa-cog"></i>
+                        <span>Admin Access</span>
+                    </div>
+                    <div class="admin-info">
+                        <p><strong>Username:</strong> ADMIN</p>
+                        <p><strong>Password:</strong> ADMIN</p>
+                        <small>Use these credentials to access the admin portal for managing pickup requests and system oversight.</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="card-footer">
+                <p>Infosys Hackathon 2025 • Tech for Good</p>
+                <p>Building a sustainable future, one pickup at a time 🌱</p>
+            </div>
+        </div>
+
+        <!-- Admin Modal -->
+        <div id="adminModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Admin Login</h3>
+                    <span class="close" onclick="closeAdminModal()">&times;</span>
+                </div>
+                <form id="adminLoginForm">
+                    <div class="form-group">
+                        <label for="adminEmail">Admin Email</label>
+                        <input type="email" id="adminEmail" value="admin@smartrecycle.com" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminPassword">Password</label>
+                        <input type="password" id="adminPassword" placeholder="Enter admin password" required>
+                    </div>
+                    <button type="submit" class="primary-btn admin-btn">
+                        <i class="fas fa-shield-alt"></i>
+                        Access Admin Panel
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/login.js"></script>
+</body>
+</html>

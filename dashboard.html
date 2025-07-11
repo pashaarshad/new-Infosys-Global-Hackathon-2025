@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Recycle - Dashboard</title>
+    <link rel="stylesheet" href="styles/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-recycle"></i>
+            <span>Smart Recycle</span>
+        </div>
+        
+        <ul class="nav-menu">
+            <li><a href="#home" class="nav-link active" onclick="showSection('home')">
+                <i class="fas fa-home"></i> Home</a></li>
+            <li><a href="#pickup" class="nav-link" onclick="showSection('pickup')">
+                <i class="fas fa-truck"></i> Request Pickup</a></li>
+            <li><a href="#track" class="nav-link" onclick="showSection('track')">
+                <i class="fas fa-chart-line"></i> Track Impact</a></li>
+            <li><a href="#rewards" class="nav-link" onclick="showSection('rewards')">
+                <i class="fas fa-gift"></i> Rewards</a></li>
+            <li><a href="#nearby" class="nav-link" onclick="showSection('nearby')">
+                <i class="fas fa-map-marker-alt"></i> Nearby Centers</a></li>
+            <li><a href="#about" class="nav-link" onclick="showSection('about')">
+                <i class="fas fa-info-circle"></i> About Us</a></li>
+        </ul>
+        
+        <div class="user-info">
+            <span id="userName">Welcome, User!</span>
+            <button onclick="logout()" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="hero-section">
+                <div class="hero-content">
+                    <h1>Welcome to Smart Recycling</h1>
+                    <p class="hero-subtitle">Today's Impact, Tomorrow's Future - Building a Sustainable World Together</p>
+                    <div class="user-greeting">
+                        <h2 id="userWelcome">Welcome, User!</h2>
+                        <p class="daily-task">Today's task: Save trees, Save water, Save our planet! 🌱</p>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <i class="fas fa-globe-americas"></i>
+                </div>
+            </div>
+
+            <!-- SDG Section -->
+            <div class="sdg-section">
+                <h2>Sustainable Development Goals We Support</h2>
+                <div class="sdg-grid">
+                    <div class="sdg-card">
+                        <i class="fas fa-utensils"></i>
+                        <h3>Zero Hunger</h3>
+                        <p>Supporting poor communities with food in exchange for waste collection</p>
+                    </div>
+                    <div class="sdg-card">
+                        <i class="fas fa-leaf"></i>
+                        <h3>Clean Environment</h3>
+                        <p>Reducing waste pollution and promoting circular economy</p>
+                    </div>
+                    <div class="sdg-card">
+                        <i class="fas fa-recycle"></i>
+                        <h3>Responsible Consumption</h3>
+                        <p>Encouraging waste reduction and proper recycling practices</p>
+                    </div>
+                    <div class="sdg-card">
+                        <i class="fas fa-city"></i>
+                        <h3>Sustainable Cities</h3>
+                        <p>Making cities cleaner and more sustainable for everyone</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Unique Value Proposition -->
+            <div class="value-section">
+                <h2>Our Unique Approach</h2>
+                <div class="value-content">
+                    <div class="value-text">
+                        <p>Smart Recycle bridges the gap in urban waste management by ensuring no household is left behind. When traditional garbage collection services miss your area, our platform connects you with reliable waste collection teams.</p>
+                        
+                        <h3>How We Create Value:</h3>
+                        <ul>
+                            <li><strong>Collection:</strong> We collect waste from your doorstep</li>
+                            <li><strong>Classification:</strong> Separate plastic, metal, organic materials</li>
+                            <li><strong>Processing:</strong> Organic waste → Compost for farmers</li>
+                            <li><strong>Recycling:</strong> Plastic & metal → New products</li>
+                            <li><strong>Revenue:</strong> Sell processed materials to manufacturers</li>
+                        </ul>
+                        
+                        <p>This creates a sustainable business model while solving environmental challenges!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Impact Chart -->
+            <div class="chart-section">
+                <h2>Daily Waste Generation Impact</h2>
+                <div class="chart-container">
+                    <canvas id="wasteChart"></canvas>
+                </div>
+                <p class="chart-note">Data shows daily waste generation and recycling progress in our service areas</p>
+            </div>
+        </section>
+
+        <!-- Pickup Section -->
+        <section id="pickup" class="section">
+            <div class="section-header">
+                <h1>Request Waste Pickup</h1>
+                <p>Schedule a convenient time for waste collection from your location</p>
+            </div>
+            
+            <div class="pickup-form-container">
+                <form id="pickupForm" class="pickup-form">
+                    <div class="form-group">
+                        <label>Your Details (Auto-filled)</label>
+                        <div class="user-details">
+                            <div class="detail-item">
+                                <i class="fas fa-user"></i>
+                                <span id="pickupUserName">User Name</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-envelope"></i>
+                                <span id="pickupUserEmail">user@email.com</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pickupDate">
+                                <i class="fas fa-calendar"></i>
+                                Pickup Date
+                            </label>
+                            <input type="date" id="pickupDate" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pickupTime">
+                                <i class="fas fa-clock"></i>
+                                Preferred Time
+                            </label>
+                            <select id="pickupTime" required>
+                                <option value="">Select Time Slot</option>
+                                <option value="06:00-07:00">6:00 AM - 7:00 AM</option>
+                                <option value="07:00-08:00">7:00 AM - 8:00 AM</option>
+                                <option value="08:00-09:00">8:00 AM - 9:00 AM</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-trash"></i>
+                            Waste Types (Select all that apply)
+                        </label>
+                        <div class="waste-types">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="wasteType" value="plastic">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-bottle-water"></i>
+                                Plastic
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="wasteType" value="paper">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-file-alt"></i>
+                                Paper
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="wasteType" value="metal">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-cog"></i>
+                                Metal
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="wasteType" value="organic">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-apple-alt"></i>
+                                Organic
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="wasteType" value="electronic">
+                                <span class="checkmark"></span>
+                                <i class="fas fa-mobile-alt"></i>
+                                Electronic
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i>
+                        Send Pickup Request
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Track Impact Section -->
+        <section id="track" class="section">
+            <div class="section-header">
+                <h1>Track Your Environmental Impact</h1>
+                <p>See how your recycling efforts are making a difference</p>
+            </div>
+            
+            <div class="impact-dashboard">
+                <div class="impact-cards">
+                    <div class="impact-card">
+                        <i class="fas fa-tree"></i>
+                        <div class="impact-number" id="treesSaved">0</div>
+                        <div class="impact-label">Trees Saved</div>
+                    </div>
+                    <div class="impact-card">
+                        <i class="fas fa-tint"></i>
+                        <div class="impact-number" id="waterSaved">0</div>
+                        <div class="impact-label">Liters Water Saved</div>
+                    </div>
+                    <div class="impact-card">
+                        <i class="fas fa-bolt"></i>
+                        <div class="impact-number" id="energySaved">0</div>
+                        <div class="impact-label">kWh Energy Saved</div>
+                    </div>
+                    <div class="impact-card">
+                        <i class="fas fa-coins"></i>
+                        <div class="impact-number" id="pointsEarned">0</div>
+                        <div class="impact-label">Points Earned</div>
+                    </div>
+                </div>
+                
+                <div class="impact-chart">
+                    <canvas id="impactChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rewards Section -->
+        <section id="rewards" class="section">
+            <div class="section-header">
+                <h1>Rewards & Sustainability Store</h1>
+                <p>Redeem your points for eco-friendly products</p>
+            </div>
+            
+            <div class="points-display">
+                <div class="points-card">
+                    <i class="fas fa-coins"></i>
+                    <span>Your Points: <strong id="userPoints">0</strong></span>
+                </div>
+            </div>
+            
+            <div class="rewards-grid">
+                <div class="reward-item" data-points="400">
+                    <img src="https://via.placeholder.com/200x150/4CAF50/white?text=Eco+Pencil" alt="Sustainable Pencil">
+                    <h3>Sustainable Pencil Set</h3>
+                    <p>Made from recycled materials</p>
+                    <div class="points-required">400 Points</div>
+                    <button class="claim-btn" onclick="claimReward(400, 'Sustainable Pencil Set')">Claim</button>
+                </div>
+                
+                <div class="reward-item" data-points="1000">
+                    <img src="https://via.placeholder.com/200x150/2196F3/white?text=Water+Bottle" alt="Reusable Water Bottle">
+                    <h3>Eco Water Bottle</h3>
+                    <p>BPA-free reusable bottle</p>
+                    <div class="points-required">1000 Points</div>
+                    <button class="claim-btn" onclick="claimReward(1000, 'Eco Water Bottle')">Claim</button>
+                </div>
+                
+                <div class="reward-item" data-points="1500">
+                    <img src="https://via.placeholder.com/200x150/FF9800/white?text=Shopping+Bag" alt="Eco Shopping Bag">
+                    <h3>Organic Cotton Bag</h3>
+                    <p>Reusable shopping bag</p>
+                    <div class="points-required">1500 Points</div>
+                    <button class="claim-btn" onclick="claimReward(1500, 'Organic Cotton Bag')">Claim</button>
+                </div>
+                
+                <div class="reward-item" data-points="2000">
+                    <img src="https://via.placeholder.com/200x150/9C27B0/white?text=Bamboo+Set" alt="Bamboo Cutlery">
+                    <h3>Bamboo Cutlery Set</h3>
+                    <p>Portable eco-friendly utensils</p>
+                    <div class="points-required">2000 Points</div>
+                    <button class="claim-btn" onclick="claimReward(2000, 'Bamboo Cutlery Set')">Claim</button>
+                </div>
+                
+                <div class="reward-item" data-points="5000">
+                    <img src="https://via.placeholder.com/200x150/4CAF50/white?text=Solar+Light" alt="Solar Light">
+                    <h3>Solar LED Light</h3>
+                    <p>Renewable energy lighting</p>
+                    <div class="points-required">5000 Points</div>
+                    <button class="claim-btn" onclick="claimReward(5000, 'Solar LED Light')">Claim</button>
+                </div>
+                
+                <div class="reward-item" data-points="10000">
+                    <img src="https://via.placeholder.com/200x150/FF5722/white?text=Tree+Plant" alt="Tree Sapling">
+                    <h3>Plant a Tree</h3>
+                    <p>We'll plant a tree in your name</p>
+                    <div class="points-required">10000 Points</div>
+                    <button class="claim-btn" onclick="claimReward(10000, 'Plant a Tree')">Claim</button>
+                </div>
+            </div>
+            
+            <!-- Offline Section -->
+            <div class="offline-section">
+                <h2>Community Impact Program</h2>
+                <p class="offline-description">
+                    Supporting our community members who don't have access to digital platforms. 
+                    Together, we're building an inclusive recycling ecosystem.
+                </p>
+                
+                <div class="offline-stats">
+                    <div class="offline-stat">
+                        <i class="fas fa-hands-helping"></i>
+                        <div>
+                            <div class="stat-number" id="offlineMeals">0</div>
+                            <div class="stat-label">Meals Provided</div>
+                        </div>
+                    </div>
+                    <div class="offline-stat">
+                        <i class="fas fa-trash-alt"></i>
+                        <div>
+                            <div class="stat-number" id="offlineWaste">0</div>
+                            <div class="stat-label">KG Waste Collected</div>
+                        </div>
+                    </div>
+                    <div class="offline-stat">
+                        <i class="fas fa-users"></i>
+                        <div>
+                            <div class="stat-number" id="offlinePeople">0</div>
+                            <div class="stat-label">People Helped</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Nearby Centers Section -->
+        <section id="nearby" class="section">
+            <div class="section-header">
+                <h1>Nearby Collection Centers</h1>
+                <p>Find waste collection teams in your area</p>
+            </div>
+            
+            <div class="search-controls">
+                <div class="radius-control">
+                    <label for="radiusSlider">Search Radius: <span id="radiusValue">5</span> miles</label>
+                    <input type="range" id="radiusSlider" min="1" max="50" value="5" oninput="updateRadius()">
+                </div>
+            </div>
+            
+            <div class="centers-grid" id="centersGrid">
+                <!-- Centers will be populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- About Us Section -->
+        <section id="about" class="section">
+            <div class="section-header">
+                <h1>About Smart Recycle</h1>
+                <p>Revolutionizing waste management for a sustainable future</p>
+            </div>
+            
+            <div class="about-content">
+                <div class="about-section">
+                    <h2>Our Mission</h2>
+                    <p>To create a comprehensive waste management ecosystem that benefits everyone - from urban households to rural communities, from environmental conservation to economic prosperity. We believe in technology for good, where innovation serves humanity and our planet.</p>
+                </div>
+                
+                <div class="about-section">
+                    <h2>How We Help</h2>
+                    <div class="help-categories">
+                        <div class="help-category">
+                            <h3><i class="fas fa-home"></i> For Households</h3>
+                            <ul>
+                                <li>Reliable waste pickup service</li>
+                                <li>Points-based reward system</li>
+                                <li>Environmental impact tracking</li>
+                                <li>Sustainable product marketplace</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="help-category">
+                            <h3><i class="fas fa-heart"></i> For Communities</h3>
+                            <ul>
+                                <li>Food support for vulnerable populations</li>
+                                <li>Waste collection opportunities</li>
+                                <li>Environmental education</li>
+                                <li>Community building initiatives</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="help-category">
+                            <h3><i class="fas fa-globe"></i> For Environment</h3>
+                            <ul>
+                                <li>Reduced landfill waste</li>
+                                <li>Increased recycling rates</li>
+                                <li>Lower carbon footprint</li>
+                                <li>Resource conservation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="about-section">
+                    <h2>Our Business Model</h2>
+                    <p>Smart Recycle operates on a circular economy principle. We collect, process, and sell recycled materials while providing valuable services to our community. This sustainable approach ensures long-term viability while maximizing positive impact.</p>
+                </div>
+                
+                <div class="contact-info">
+                    <h2>Contact Us</h2>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>contact@smartrecycle.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+91 80 1234 5678</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Bangalore, Karnataka, India</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="scripts/dashboard.js"></script>
+</body>
+</html>
