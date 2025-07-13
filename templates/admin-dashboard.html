@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Smart Recycle</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 1.5rem;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .logout-btn, .test-sms-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2ecc71;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .dashboard-sections {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        .section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .section h2 {
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+        
+        .requests-table, .users-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        
+        .requests-table th, .requests-table td,
+        .users-table th, .users-table td {
+            padding: 0.8rem;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+        }
+        
+        .requests-table th, .users-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        .status-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-approved {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .btn {
+            background: #2ecc71;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin: 0 0.2rem;
+        }
+        
+        .btn:hover {
+            background: #27ae60;
+        }
+        
+        .btn-danger {
+            background: #e74c3c;
+        }
+        
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+        
+        .alert {
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        
+        .alert.success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .alert.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-sections {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🛠️ Admin Dashboard</h1>
+        <div class="header-actions">
+            <button class="test-sms-btn" onclick="testSMS()">Test SMS</button>
+            <a href="/logout" class="logout-btn">Logout</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div id="alert" class="alert"></div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalUsers">0</div>
+                <div class="stat-label">Total Users</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalRequests">0</div>
+                <div class="stat-label">Pickup Requests</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalWaste">0</div>
+                <div class="stat-label">Waste Collected (kg)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">₹<span id="totalRevenue">0</span></div>
+                <div class="stat-label">Total Revenue</div>
+            </div>
+        </div>
+        
+        <div class="dashboard-sections">
+            <div class="section">
+                <h2>Pickup Requests</h2>
+                <table class="requests-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="requestsTable">
+                        <tr>
+                            <td colspan="4" style="text-align: center; color: #666;">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="section">
+                <h2>Offline Entry</h2>
+                <form id="offlineForm">
+                    <div class="form-group">
+                        <label for="collector-name">Collector Name:</label>
+                        <input type="text" id="collector-name" name="collectorName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="waste-weight">Waste Weight (kg):</label>
+                        <input type="number" id="waste-weight" name="wasteWeight" step="0.1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="waste-types">Waste Types:</label>
+                        <select id="waste-types" name="wasteTypes" multiple required>
+                            <option value="Plastic">Plastic</option>
+                            <option value="Paper">Paper</option>
+                            <option value="Metal">Metal</option>
+                            <option value="Glass">Glass</option>
+                            <option value="Electronics">Electronics</option>
+                            <option value="Organic">Organic</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="food-provided">Food Provided:</label>
+                        <select id="food-provided" name="foodProvided" required>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn">Record Entry</button>
+                </form>
+                
+                <h3 style="margin-top: 2rem;">Registered Users</h3>
+                <div style="max-height: 300px; overflow-y: auto;">
+                    <table class="users-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Points</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTable">
+                            <tr>
+                                <td colspan="3" style="text-align: center; color: #666;">Loading...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showAlert(message, type) {
+            const alert = document.getElementById('alert');
+            alert.textContent = message;
+            alert.className = `alert ${type}`;
+            alert.style.display = 'block';
+            
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 5000);
+        }
+        
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/dashboard-stats');
+                const stats = await response.json();
+                
+                document.getElementById('totalUsers').textContent = stats.total_users || 0;
+                document.getElementById('totalRequests').textContent = stats.total_requests || 0;
+                document.getElementById('totalWaste').textContent = stats.total_waste || 0;
+                document.getElementById('totalRevenue').textContent = stats.total_revenue || 0;
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+        
+        async function loadRequests() {
+            try {
+                const response = await fetch('/api/pickup-requests');
+                const requests = await response.json();
+                
+                const tableBody = document.getElementById('requestsTable');
+                
+                if (requests.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #666;">No requests found</td></tr>';
+                    return;
+                }
+                
+                tableBody.innerHTML = requests.map(req => `
+                    <tr>
+                        <td>${req.user_name}<br><small>${req.user_email}</small></td>
+                        <td>${req.pickup_date}<br><small>${req.pickup_time}</small></td>
+                        <td><span class="status-badge status-${req.status}">${req.status}</span></td>
+                        <td>
+                            ${req.status === 'pending' ? `
+                                <button class="btn" onclick="updateStatus(${req.id}, 'approved')">Approve</button>
+                                <button class="btn btn-danger" onclick="updateStatus(${req.id}, 'rejected')">Reject</button>
+                            ` : req.status === 'approved' ? `
+                                <button class="btn" onclick="updateStatus(${req.id}, 'completed')">Complete</button>
+                            ` : '-'}
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading requests:', error);
+            }
+        }
+        
+        async function loadUsers() {
+            try {
+                const response = await fetch('/api/users');
+                const users = await response.json();
+                
+                const tableBody = document.getElementById('usersTable');
+                
+                if (users.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #666;">No users found</td></tr>';
+                    return;
+                }
+                
+                tableBody.innerHTML = users.map(user => `
+                    <tr>
+                        <td>${user.name}</td>
+                        <td>${user.email}</td>
+                        <td>${user.points}</td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading users:', error);
+            }
+        }
+        
+        async function updateStatus(requestId, status) {
+            try {
+                const response = await fetch('/api/update-request-status', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        request_id: requestId,
+                        status: status
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showAlert(result.message, 'success');
+                    loadRequests();
+                    loadStats();
+                } else {
+                    showAlert(result.message || 'Failed to update status', 'error');
+                }
+            } catch (error) {
+                showAlert('Network error. Please try again.', 'error');
+            }
+        }
+        
+        async function testSMS() {
+            try {
+                const response = await fetch('/api/test-sms');
+                const result = await response.json();
+                
+                if (result.success) {
+                    showAlert('SMS test successful! Check your Pushover app.', 'success');
+                } else {
+                    showAlert('SMS test failed: ' + (result.message || 'Unknown error'), 'error');
+                }
+            } catch (error) {
+                showAlert('SMS test error: ' + error.message, 'error');
+            }
+        }
+        
+        // Offline form handler
+        document.getElementById('offlineForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const wasteTypes = Array.from(formData.getAll('wasteTypes'));
+            
+            const entryData = {
+                collectorName: formData.get('collectorName'),
+                wasteWeight: parseFloat(formData.get('wasteWeight')),
+                wasteTypes: wasteTypes,
+                foodProvided: formData.get('foodProvided')
+            };
+            
+            try {
+                const response = await fetch('/api/offline-entry', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(entryData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showAlert(result.message, 'success');
+                    this.reset();
+                    loadStats();
+                } else {
+                    showAlert(result.message || 'Failed to record entry', 'error');
+                }
+            } catch (error) {
+                showAlert('Network error. Please try again.', 'error');
+            }
+        });
+        
+        // Load data on page load
+        loadStats();
+        loadRequests();
+        loadUsers();
+        
+        // Refresh data every 30 seconds
+        setInterval(() => {
+            loadStats();
+            loadRequests();
+            loadUsers();
+        }, 30000);
+    </script>
+</body>
+</html>

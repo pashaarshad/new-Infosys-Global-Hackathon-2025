@@ -1,3 +1,24 @@
 2025-07-12 03:20:17,890 - INFO - Notification sent successfully: 🌱 System Online
 2025-07-12 03:20:19,168 - INFO - Notification sent successfully: 🚛 New Pickup Request
 2025-07-12 03:20:20,443 - INFO - Notification sent successfully: 🚨 High Volume
+2025-07-12 10:22:07,360 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.20.2.84:5000
+2025-07-12 10:22:07,362 - INFO - [33mPress CTRL+C to quit[0m
+2025-07-12 10:22:07,365 - INFO -  * Restarting with stat
+2025-07-12 10:22:07,939 - WARNING -  * Debugger is active!
+2025-07-12 10:22:08,109 - INFO -  * Debugger PIN: 140-795-226
+2025-07-12 10:22:12,617 - INFO - 127.0.0.1 - - [12/Jul/2025 10:22:12] "[35m[1mGET / HTTP/1.1[0m" 500 -
+2025-07-12 10:22:12,857 - INFO - 127.0.0.1 - - [12/Jul/2025 10:22:12] "GET /?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2025-07-12 10:22:12,898 - INFO - 127.0.0.1 - - [12/Jul/2025 10:22:12] "[36mGET /?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2025-07-12 10:22:13,116 - INFO - 127.0.0.1 - - [12/Jul/2025 10:22:13] "GET /?__debugger__=yes&cmd=resource&f=console.png&s=DLBplgwkYgIuc4qaHNtp HTTP/1.1" 200 -
+2025-07-12 10:22:13,361 - INFO - 127.0.0.1 - - [12/Jul/2025 10:22:13] "[36mGET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2025-07-12 10:38:31,330 - INFO -  * Detected change in '/home/arshad/Desktop/new Infosys Global Hackathon 2025/app.py', reloading
+2025-07-12 10:38:31,819 - INFO -  * Restarting with stat
+2025-07-12 10:38:33,509 - WARNING -  * Debugger is active!
+2025-07-12 10:38:33,511 - INFO -  * Debugger PIN: 140-795-226
+2025-07-12 10:39:15,790 - INFO -  * Detected change in '/home/arshad/Desktop/new Infosys Global Hackathon 2025/app.py', reloading
+2025-07-12 10:39:16,063 - INFO -  * Restarting with stat
+2025-07-12 10:39:17,021 - WARNING -  * Debugger is active!
+2025-07-12 10:39:17,027 - INFO -  * Debugger PIN: 140-795-226
